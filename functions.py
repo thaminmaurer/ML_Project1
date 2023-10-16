@@ -25,8 +25,9 @@ def compute_sigmoid(x):
 ############################# Step 2 #############################
 def compute_loss_mse(y, tx, w):
     """Calculate the loss using mse."""
+  
     e = y - tx.dot(w)
-    loss = e.dot(e) / (2 * len(e))
+    loss = e.T.dot(e) / (2 * len(e))
     return loss
 
 def compute_gradient_mse(y, tx, w):
