@@ -12,12 +12,22 @@ def standardize(x):
     return x, mean_x, std_x
 
 
+def compute_sigmoid(x):
+    """ 
+    Sigmoid function for logistic regression
+    Args:
+    x: input data
+    """
+    
+    sigmoid = 1/(1+np.exp(-x))
+    return sigmoid
+
 ############################# Step 2 #############################
 def compute_loss_mse(y, tx, w):
     """Calculate the loss using mse."""
     e = y - tx.dot(w)
-    mse = e.dot(e) / (2 * len(e))
-    return mse
+    loss = e.dot(e) / (2 * len(e))
+    return loss
 
 def compute_gradient_mse(y, tx, w):
     """Compute the gradient."""
