@@ -22,6 +22,34 @@ def compute_sigmoid(x):
     sigmoid = 1/(1+np.exp(-x))
     return sigmoid
 
+
+def handle_nan_values(x, delete_nan_columns=False):
+    # Calculate dimension of x
+    D = x.shape[1]
+
+    #calculate number number of nan per column
+    logical_matrix = np.isnan(x)
+    nan_per_columns = np.sum(logical_matrix, axis=0)
+    average_nan = np.mean(nan_per_columns)
+
+    # delet the columns with more nan than the average
+    if delete_nan_columns:
+        x = x[:, nan_per_columns <= average_nan]
+
+    # Replace NaN entries with mean
+    for i in range(D):
+        nan_entries = np.isnan(x[:,i])
+        mean = np.mean(x[~nan_entries,i])
+        x[nan_entries, i] = mean
+    return x
+        
+def predict_y(w, x):
+    y_pred=x.dot(w)
+    y_pred = compute_sigmoid(y_pred)
+    y_pred[y_pred>0.5] = 1
+    y_pred[y_pred<=0.5] = -1
+ 
+
 ############################# Step 2 #############################
 def compute_loss_mse(y, tx, w):
     """Calculate the loss using mse."""
