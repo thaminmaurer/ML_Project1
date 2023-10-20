@@ -46,8 +46,9 @@ def handle_nan_values(x, delete_nan_columns=False):
 def predict_y(w, x):
     y_pred=x.dot(w)
     y_pred = compute_sigmoid(y_pred)
-    y_pred[y_pred>0.5] = 1
-    y_pred[y_pred<=0.5] = -1
+    y_pred[y_pred>0] = 1
+    y_pred[y_pred<=0] = -1
+    return y_pred
  
 
 ############################# Step 2 #############################
@@ -115,15 +116,20 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     return w, loss
 
 
-def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
+def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma,  batch_size=1, num_batches=1):
     """calculate the loss by mse."""
     w = initial_w
+    best_w = []
+    best_loss = 1e16
     for n_iter in range(max_iters):
-        for minibatch_y, minibatch_tx in batch_iter(y, tx, batch_size=1, num_batches=1):
+        for minibatch_y, minibatch_tx in batch_iter(y, tx, batch_size, num_batches):
             gradient = compute_gradient_mse(minibatch_y, minibatch_tx, w)
             loss = compute_loss_mse(minibatch_y, minibatch_tx, w)
             w = w - gamma * gradient
-    return w, loss
+            if loss < best_loss:
+                best_loss = loss
+                best_w = w
+    return best_w, best_loss
 
 
 def least_squares(y, tx):
