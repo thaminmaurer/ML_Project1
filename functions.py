@@ -42,12 +42,13 @@ def handle_nan_values(x, delete_nan_columns=False):
         mean = np.mean(x[~nan_entries,i])
         x[nan_entries, i] = mean
     return x
-        
+
+
 def predict_y(w, x):
     y_pred=x.dot(w)
-    y_pred = compute_sigmoid(y_pred)
-    y_pred[y_pred>0] = 1
-    y_pred[y_pred<=0] = -1
+    y_pred = compute_sigmoid(y_pred) # now y_pred values should be between 0 and 1
+    y_pred[y_pred>0.5] = 1
+    y_pred[y_pred<=0.5] = -1
     return y_pred
  
 
