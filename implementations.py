@@ -72,10 +72,22 @@ def compute_loss_logistic(y, tx, w):
     loss = np.sum(np.log(1 + np.exp(pred)) - y * pred)
     return loss
 
+def compute_loss_logistic_minusone_one(y, tx, w):
+    """compute the cost by negative log likelihood."""
+    pred = tx.dot(w)
+    loss = np.sum(np.log(1 + np.exp(-y*pred)))
+    return loss
+
 def compute_gradient_logistic(y, tx, w):
     """compute the gradient of loss."""
     pred = tx.dot(w)
-    gradient = tx.T.dot(compute_sigmoid(pred) - y)
+    gradient = (tx.T.dot(compute_sigmoid(pred) - y))/ len(y)
+    return gradient
+
+def compute_gradient_logistic_minusone_one(y, tx, w):
+    """compute the gradient of loss."""
+    pred = tx.dot(w)
+    gradient = - (tx.T.dot(y * (1 - (compute_sigmoid(y*pred) )))) / len(y)
     return gradient
 
 def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
@@ -156,8 +168,8 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     """implement logistic regression."""
     w = initial_w
     for n_iter in range(max_iters):
-        gradient = compute_gradient_logistic(y, tx, w)
-        loss = compute_loss_logistic(y, tx, w)
+        gradient = compute_gradient_logistic_minusone_one(y, tx, w)
+        loss = compute_loss_logistic_minusone_one(y, tx, w)
         w = w - gamma * gradient
     return w, loss
 
