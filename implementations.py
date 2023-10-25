@@ -69,13 +69,13 @@ def compute_gradient_mse(y, tx, w):
 def compute_loss_logistic(y, tx, w):
     """compute the cost by negative log likelihood."""
     pred = tx.dot(w)
-    loss = np.sum(np.log(1 + np.exp(pred)) - y * pred)
+    loss = np.sum(np.log(1 + np.exp(pred)) - y * pred) / len(pred)
     return loss
 
 def compute_loss_logistic_minusone_one(y, tx, w):
     """compute the cost by negative log likelihood."""
     pred = tx.dot(w)
-    loss = np.sum(np.log(1 + np.exp(-y*pred)))
+    loss = np.sum(np.log(1 + np.exp(-y*pred))) / len(pred)
     return loss
 
 def compute_gradient_logistic(y, tx, w):
@@ -182,6 +182,25 @@ def reg_logistic_regression(y, tx, initial_w, max_iters, gamma, lambda_):
         loss = compute_loss_logistic(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
         w = w - gamma * gradient
     return w, loss
+
+
+def logistic_regression_with_mb(y, tx, initial_w, max_iters, gamma, batch_size):
+    w = initial_w
+    num_samples = len(y)
+    
+    for n_iter in range(max_iters):
+        for batch_start in range(0, num_samples, batch_size):
+            batch_end = batch_start + batch_size
+            batch_tx = tx[batch_start:batch_end]
+            batch_y = y[batch_start:batch_end]
+            
+            gradient = compute_gradient_logistic_minusone_one(batch_y, batch_tx, w)
+            loss = compute_loss_logistic_minusone_one(batch_y, batch_tx, w)
+            
+            w = w - gamma * gradient
+        
+    return w, loss
+
 
 
 
