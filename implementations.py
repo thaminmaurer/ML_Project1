@@ -82,7 +82,6 @@ def compute_gradient_logistic(y, tx, w):
     """compute the gradient of loss."""
     pred = tx.dot(w)
     gradient = (tx.T.dot(compute_sigmoid(pred) - y))/ len(y)
-    #gradient = tx.T.dot( np.exp(pred) / (1 + np.exp(pred)) - y ) / len(y)
     return gradient
 
 def compute_gradient_logistic_minusone_one(y, tx, w):
@@ -169,14 +168,22 @@ def ridge_regression(y, tx, lambda_):
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
     """implement logistic regression."""
     w = initial_w
-    loss = compute_loss_logistic_minusone_one(y, tx, w)
     loss = compute_loss_logistic(y, tx, w)
     for n_iter in range(max_iters):
-        gradient = compute_gradient_logistic_minusone_one(y, tx, w)
         gradient = compute_gradient_logistic(y, tx, w)
         w = w - gamma * gradient
-        loss = compute_loss_logistic_minusone_one(y, tx, w)
         loss = compute_loss_logistic(y, tx, w)
+    return w, loss
+
+
+def logistic_regression_minusone_one(y, tx, initial_w, max_iters, gamma):
+    """implement logistic regression."""
+    w = initial_w
+    loss = compute_loss_logistic_minusone_one(y, tx, w)
+    for n_iter in range(max_iters):
+        gradient = compute_gradient_logistic_minusone_one(y, tx, w)
+        w = w - gamma * gradient
+        loss = compute_loss_logistic_minusone_one(y, tx, w)
     return w, loss
 
 
