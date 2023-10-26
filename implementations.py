@@ -138,8 +138,8 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma,  batch_size=1, nu
     for n_iter in range(max_iters):
         for minibatch_y, minibatch_tx in batch_iter(y, tx, batch_size, num_batches):
             gradient = compute_gradient_mse(minibatch_y, minibatch_tx, w)
-            loss = compute_loss_mse(minibatch_y, minibatch_tx, w)
             w = w - gamma * gradient
+            loss = compute_loss_mse(minibatch_y, minibatch_tx, w)
             if loss < best_loss:
                 best_loss = loss
                 best_w = w
