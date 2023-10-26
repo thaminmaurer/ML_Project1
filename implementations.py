@@ -50,6 +50,15 @@ def predict_y(w, x):
     y_pred[y_pred>0.5] = 1
     y_pred[y_pred<=0.5] = -1
     return y_pred
+
+def baseline_prediction(y):
+    """ 
+    Baseline prediction for logistic regression
+    Args:
+    y: input data
+    """
+    y_pred = np.random.choice([-1,1], size=len(y))
+    return y_pred
  
 
 ############################# Step 2 #############################
