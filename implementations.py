@@ -122,6 +122,7 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
 def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     """calculate the loss by mse."""
     w = initial_w
+    loss = compute_loss_mse(y, tx, w)
     for n_iter in range(max_iters):
         gradient = compute_gradient_mse(y, tx, w)
         loss = compute_loss_mse(y, tx, w)
