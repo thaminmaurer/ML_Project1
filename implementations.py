@@ -187,7 +187,7 @@ def logistic_regression_minusone_one(y, tx, initial_w, max_iters, gamma):
     return w, loss
 
 
-def reg_logistic_regression(y, tx, initial_w, max_iters, gamma, lambda_):
+def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """implement regularized logistic regression."""
     w = initial_w
     for n_iter in range(max_iters):
