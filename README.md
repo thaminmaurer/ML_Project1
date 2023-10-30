@@ -8,7 +8,7 @@
 
 ## Introduction
 
-This README provides an overview of the Python code we've written for the Machine Learning Project 1. The code is designed to implement various machine learning methods, preprocess the dataset, and generate predictions for a competition. Below, I'll break down the code's structure and functionality.
+This README provides an overview of the Python code we've written for the Machine Learning Project 1. The code is designed to implement various machine learning methods, preprocess the dataset, and generate predictions for a competition. What follows is a break down the code's structure and functionality.
 
 ## The file implementations.py
 In the file implementations.py are the implementations of all the machine learning methods implemeneted for this project including the methods seen in class and in the labs.
